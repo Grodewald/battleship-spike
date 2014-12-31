@@ -9,5 +9,20 @@
   .field
     = f.label :name
     = f.text_field :name
+
+  %table
+    %thead
+      %tr
+      %td
+      - @game.Columns.each do |col|
+        %td= col
+    %tbody
+      -@game.Rows.each do |row|
+        %tr
+          %td= row
+          -@game.Columns.each do |col|
+            %td
+
+
   .actions
     = f.submit 'Save'
