@@ -1,3 +1,48 @@
 // Place all the styles related to the Games controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+.games {
+    table {
+        border-collapse: collapse;
+    
+        td {
+            margin: 0;
+            width: 40px;
+            height: 40px;
+            border: 3px solid #000;
+            background: #5CADFF;
+        }
+
+        td.header {
+            background: #000;
+        }
+
+        .header_label {
+            text-align: center;
+            color:#FFF;
+        }
+
+        .cell_label {
+            text-align: center;
+            color:#000;
+        }
+
+        .peg {
+            margin-left: auto;
+            margin-right: auto;
+            width: 45%;
+            height: 45%;
+            background: #FFF;
+            border: 1px solid #000;
+            border-radius: 100%
+        }
+
+        .miss {
+            background: #FFF;
+        }
+
+        .hit {
+            background: #FF0000;
+        }
+    }
+}

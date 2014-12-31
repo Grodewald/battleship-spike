@@ -10,18 +10,22 @@
     = f.label :name
     = f.text_field :name
 
-  %table
+  %table.board
     %thead
       %tr
-      %td
-      - @game.Columns.each do |col|
-        %td= col
+        %td.header
+        - @game.Columns.each do |col|
+          %td.header
+            .header_label=col
+        
     %tbody
       -@game.Rows.each do |row|
         %tr
-          %td= row
+          %td.header
+            .header_label=row
           -@game.Columns.each do |col|
             %td
+              .cell_label #{t row+col}
 
 
   .actions
