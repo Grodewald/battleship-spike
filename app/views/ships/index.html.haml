@@ -1,0 +1,23 @@
+%h1 Listing ships
+
+%table
+  %thead
+    %tr
+      %th  name
+      %th Size
+      %th
+      %th
+      %th
+      
+  %tbody
+    - @ships.each do |ship|
+      %tr
+        %td= ship. name
+        %td= ship.size
+        %td= link_to 'Show', ship
+        %td= link_to 'Edit', edit_ship_path(ship)
+        %td= link_to 'Destroy', ship, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Ship', new_ship_path

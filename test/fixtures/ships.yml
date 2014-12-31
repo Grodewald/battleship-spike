@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+Carrier:
+    name: Aircraft Carrier   
+    size: 5
+
+Battleship:
+    name: Battleship   
+    size: 4
+
+Destroyer:
+    name: Destroyer   
+    size: 3
+
+Sub:
+    name: Submarine   
+    size: 3
+
+PT:
+    name: PT Cruiser   
+    size: 2

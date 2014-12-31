@@ -1,0 +1,12 @@
+%p#notice= notice
+
+%p
+  %b  name:
+  = @ship. name
+%p
+  %b Size:
+  = @ship.size
+
+= link_to 'Edit', edit_ship_path(@ship)
+\|
+= link_to 'Back', ships_path
