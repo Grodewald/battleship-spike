@@ -46,4 +46,27 @@ class GameTest < ActiveSupport::TestCase
     assert_nil game.get_guess_at('2', 'C')
   end
 
+  test "register_guess_at returns the guess registered" do
+    game = Game.new
+    guess = game.register_guess_at '2','C'
+    assert_instance_of Guess, guess
+    assert_equal game.get_cell_value('2', 'C'), guess.guess_value
+  end
+
+  test "register_guess_at returns nil if the guess was out of range" do
+    game = Game.new
+    guess = game.register_guess_at "out of range value 1", 'out of range value 2'
+    assert_nil guess
+  end
+
+  test "register_guess_at does not add multiple guesses of the same value to the guesses list" do
+    game = Game.new
+    guess = game.register_guess_at '2', 'C'
+    assert_equal 1, game.guesses.length
+    assert_instance_of Guess, guess
+    guess1 = game.register_guess_at '2', 'C'
+    assert_equal 1, game.guesses.length
+    assert_instance_of Guess, guess1
+  end
+
 end

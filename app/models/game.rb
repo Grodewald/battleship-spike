@@ -29,6 +29,16 @@ class Game < ActiveRecord::Base
     guesses.select { |guess| guess.guess_value == get_cell_value(col, row) }[0]
   end
 
+  def register_guess_at(col, row)
+    if validate_range col, row  then
+      get_guess_at(col, row) ||
+      guesses.build(guess_value: get_cell_value(col,row), is_hit: false)
+    else
+      nil
+    end
+    
+  end
+
   private 
 
   def validate_range(col, row) 
