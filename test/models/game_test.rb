@@ -40,7 +40,7 @@ class GameTest < ActiveSupport::TestCase
     assert_equal game.guesses[0], game.get_guess_at('2', 'D')
   end
 
-  test "get_guess_at teturns nill when the cell has not been guessed" do 
+  test "get_guess_at returns nill when the cell has not been guessed" do 
     game = Game.new
     game.guesses.build(guess_value:13, is_hit: false)
     assert_nil game.get_guess_at('2', 'C')
@@ -65,6 +65,31 @@ class GameTest < ActiveSupport::TestCase
     assert_equal 1, game.guesses.length
     assert_instance_of Guess, guess
     guess1 = game.register_guess_at '2', 'C'
+    assert_equal 1, game.guesses.length
+    assert_instance_of Guess, guess1
+  end
+
+  test "register_guess_value returns the guess registered" do
+    game = Game.new
+    guess = game.register_guess_value 15
+    assert_instance_of Guess, guess
+    assert_equal 15 , guess.guess_value
+  end
+
+  test "register_guess_value returns nil if the guess was out of range" do
+    game = Game.new
+    guess = game.register_guess_value 103
+    assert_nil guess
+    guess1 = game.register_guess_value -1
+    assert_nil guess1
+  end
+
+  test "register_guess_value does not add multiple guesses of the same value to the guesses list" do
+    game = Game.new
+    guess = game.register_guess_value 12
+    assert_equal 1, game.guesses.length
+    assert_instance_of Guess, guess
+    guess1 = game.register_guess_value 12
     assert_equal 1, game.guesses.length
     assert_instance_of Guess, guess1
   end

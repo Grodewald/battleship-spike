@@ -24,11 +24,12 @@ class GuessesController < ApplicationController
   # POST /guesses
   # POST /guesses.json
   def create
-    @guess = Guess.new(guess_params)
+    game = Game.find(params[:game_id])
+    @guess = game.register_guess_value(params[:guess_value].to_i)
 
     respond_to do |format|
       if @guess.save
-        format.html { redirect_to @guess, notice: 'Guess was successfully created.' }
+        format.html { redirect_to edit_game_path(params[:game_id]) }
         format.json { render :show, status: :created, location: @guess }
       else
         format.html { render :new }

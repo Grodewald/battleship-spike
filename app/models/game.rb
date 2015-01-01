@@ -30,13 +30,22 @@ class Game < ActiveRecord::Base
   end
 
   def register_guess_at(col, row)
-    if validate_range col, row  then
-      get_guess_at(col, row) ||
-      guesses.build(guess_value: get_cell_value(col,row), is_hit: false)
-    else
+    validate_range(col, row) ?
+      (get_guess_at(col, row) ||
+        guesses.build(guess_value: get_cell_value(col,row), is_hit: false) ) :
       nil
-    end
-    
+  end
+
+  def register_guess_value(val)
+    validate_value_in_range(val) ? 
+      ( (guesses.select{ |guess| guess.guess_value == val }[0]) ||
+        guesses.build(guess_value: val, is_hit: false) ) :
+      nil
+  end
+
+  def validate_value_in_range(val)
+    max_value = @@columns[columns.last] * columns.length + @@rows[rows.last]
+    (val >= 0 and val <= max_value)
   end
 
   private 
@@ -44,5 +53,7 @@ class Game < ActiveRecord::Base
   def validate_range(col, row) 
     @@columns[col] and @@rows[row]
   end
+
+
   
 end

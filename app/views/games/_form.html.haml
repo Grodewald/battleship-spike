@@ -31,7 +31,7 @@
                 -else
                   .peg.miss
               - else
-                #{t @game.get_cell_value col, row}
+                .cell_label=link_to("#{col + row}", guesses_path(game_id: @game, guess_value: @game.get_cell_value(col, row)), :method => :post)
 
 
   .actions
