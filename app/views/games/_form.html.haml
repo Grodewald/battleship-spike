@@ -14,18 +14,24 @@
     %thead
       %tr
         %td.header
-        - @game.Columns.each do |col|
+        - @game.columns.each do |col|
           %td.header
             .header_label=col
         
     %tbody
-      -@game.Rows.each do |row|
+      -@game.rows.each do |row|
         %tr
           %td.header
             .header_label=row
-          -@game.Columns.each do |col|
+          -@game.columns.each do |col|
             %td
-              .cell_label #{t row+col}
+              - if @game.has_cell_been_guessed col, row
+                - if @game.get_guess_at(col, row).is_hit
+                  .peg.hit
+                -else
+                  .peg.miss
+              - else
+                #{t @game.get_cell_value col, row}
 
 
   .actions

@@ -12,3 +12,19 @@ Ship.create!(name: 'PT Cruiser', size: 2)
 
 #Ship END
 
+# Game START
+Game.delete_all
+
+game = Game.create!(name: "A Sample In Progress Game")
+# Game END
+
+# Guess START
+game.guesses.create!(guess_value: 13, is_hit:false)
+game.guesses.create!(guess_value: 84, is_hit:true)
+game.guesses.create!(guess_value: 85, is_hit:true)
+game.guesses.create!(guess_value: 86, is_hit:true)
+game.guesses.create!(guess_value: 75, is_hit:false)
+game.guesses.create!(guess_value: 99, is_hit:true)
+
+# Guess END
+

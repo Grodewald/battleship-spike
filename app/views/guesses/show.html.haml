@@ -1,0 +1,12 @@
+%p#notice= notice
+
+%p
+  %b Game:
+  = @guess.game
+%p
+  %b Guess value:
+  = @guess.guess_value
+
+= link_to 'Edit', edit_guess_path(@guess)
+\|
+= link_to 'Back', guesses_path
