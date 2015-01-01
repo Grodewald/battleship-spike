@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141231235648) do
+ActiveRecord::Schema.define(version: 20150101175030) do
 
   create_table "games", force: :cascade do |t|
     t.string   "name"
@@ -28,6 +28,18 @@ ActiveRecord::Schema.define(version: 20141231235648) do
   end
 
   add_index "guesses", ["game_id"], name: "index_guesses_on_game_id"
+
+  create_table "ship_placements", force: :cascade do |t|
+    t.integer  "ship_id"
+    t.integer  "game_id"
+    t.integer  "top_left_value"
+    t.string   "orientation"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+  end
+
+  add_index "ship_placements", ["game_id"], name: "index_ship_placements_on_game_id"
+  add_index "ship_placements", ["ship_id"], name: "index_ship_placements_on_ship_id"
 
   create_table "ships", force: :cascade do |t|
     t.string   "name"

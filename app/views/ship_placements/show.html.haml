@@ -1,0 +1,18 @@
+%p#notice= notice
+
+%p
+  %b Ship:
+  = @ship_placement.ship
+%p
+  %b game:
+  = @ship_placement.game
+%p
+  %b Top left value:
+  = @ship_placement.top_left_value
+%p
+  %b Orientation:
+  = @ship_placement.orientation
+
+= link_to 'Edit', edit_ship_placement_path(@ship_placement)
+\|
+= link_to 'Back', ship_placements_path

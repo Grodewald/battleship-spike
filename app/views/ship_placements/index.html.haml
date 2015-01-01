@@ -1,0 +1,27 @@
+%h1 Listing ship_placements
+
+%table
+  %thead
+    %tr
+      %th Ship
+      %th game
+      %th Top left value
+      %th Orientation
+      %th
+      %th
+      %th
+      
+  %tbody
+    - @ship_placements.each do |ship_placement|
+      %tr
+        %td= ship_placement.ship
+        %td= ship_placement.game
+        %td= ship_placement.top_left_value
+        %td= ship_placement.orientation
+        %td= link_to 'Show', ship_placement
+        %td= link_to 'Edit', edit_ship_placement_path(ship_placement)
+        %td= link_to 'Destroy', ship_placement, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Ship placement', new_ship_placement_path

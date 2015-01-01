@@ -16,13 +16,13 @@ class GuessesControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should create guess" do
-    assert_difference('Guess.count') do
-      post :create, guess: { game_id: @guess.game_id, guess_value: @guess.guess_value }
-    end
+  #test "should create guess" do
+    #assert_difference('Guess.count') do
+      #post :create, guess: { game_id: @guess.game_id, guess_value: @guess.guess_value }
+    #end
 
-    assert_redirected_to guess_path(assigns(:guess))
-  end
+    #assert_redirected_to guess_path(assigns(:guess))
+  #end
 
   test "should show guess" do
     get :show, id: @guess

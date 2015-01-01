@@ -1,7 +1,7 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  game_id: 1
+  game: sample_game
   guess_value: 13
   is_hit: false
 
@@ -10,7 +10,3 @@ two:
   guess_value: 84
   is_hit: true
 
-three:
-    game_id: 1
-    guess_value: 85
-    is_hit: true

@@ -1,0 +1,22 @@
+= form_for @ship_placement do |f|
+  - if @ship_placement.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@ship_placement.errors.count, "error")} prohibited this ship_placement from being saved:"
+      %ul
+        - @ship_placement.errors.full_messages.each do |msg|
+          %li= msg
+
+  .field
+    = f.label :ship
+    = f.text_field :ship
+  .field
+    = f.label :game
+    = f.text_field :game
+  .field
+    = f.label :top_left_value
+    = f.number_field :top_left_value
+  .field
+    = f.label :orientation
+    = f.text_field :orientation
+  .actions
+    = f.submit 'Save'

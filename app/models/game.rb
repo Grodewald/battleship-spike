@@ -1,5 +1,6 @@
 class Game < ActiveRecord::Base
   has_many :guesses, dependent: :destroy
+  has_many :ship_placements,  dependent: :destroy
   @@rows = { 'A' => 0, 'B' => 1, 'C' => 2, 'D' => 3, 'E' => 4, 
                           'F' => 5, 'G' => 6, 'H' => 7, 'I' => 8, 'J' => 9 }
 
@@ -16,7 +17,7 @@ class Game < ActiveRecord::Base
 
   def get_cell_value(col, row)
     validate_range(col, row) ? 
-      (@@columns[col] * @@columns.length + @@rows[row])  : nil
+      (@@columns[col] * @@rows.length + @@rows[row])  : nil
   end
 
   def has_cell_been_guessed(col, row)
@@ -48,7 +49,27 @@ class Game < ActiveRecord::Base
     (val >= 0 and val <= max_value)
   end
 
+  def place_ship(ship, top_left_value, orientation)
+    validate_ship_placement(ship, top_left_value, orientation) ?
+      ship_placements.build(top_left_value: top_left_value, orientation: orientation) :
+      nil
+  end
+
+  def validate_ship_placement(ship, top_left_value, orientation)
+    inc = orientation.to_s == 'horizontal' ? rows.length : 1
+    #used for horizontal check
+    ship_values = (0..(ship.size-1)).to_a.map{ |val| (val * inc) + top_left_value }
+    #used for vertical check -- if last is greater than first it must be off the board
+    ship_mods = ship_values.map{ |val| val%rows.length }
+    (validate_value_in_range (ship_values.last)) and 
+    (validate_value_in_range (ship_values.first)) and
+    (ship_mods.first <= ship_mods.last)
+
+  end
+
   private 
+
+  
 
   def validate_range(col, row) 
     @@columns[col] and @@rows[row]
