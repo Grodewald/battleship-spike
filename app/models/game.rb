@@ -45,7 +45,7 @@ class Game < ActiveRecord::Base
 
   def place_ship(ship, top_left_value, orientation)
     validate_ship_placement(ship, top_left_value, orientation) ?
-      ship_placements.build(top_left_value: top_left_value, orientation: orientation, ship: ship) :
+      ship_placements.build(top_left_value: top_left_value, orientation: orientation, ship: ship, hits: 0) :
       nil
   end
 
