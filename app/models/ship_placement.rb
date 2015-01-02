@@ -5,7 +5,7 @@ class ShipPlacement < ActiveRecord::Base
   def register_hit
     self.hits < ship.size ?
       self.hits += 1 : self.hits
-    save!
+    self.update(hits: self.hits)
   end 
 
   def is_sunk

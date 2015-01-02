@@ -79,6 +79,7 @@ class Game < ActiveRecord::Base
     def determine_if_guess_is_hit(val)
       ship_placements.each do |sp|
         if get_ship_placement_values(sp).include? val
+          sp.register_hit
           return true
         end
       end

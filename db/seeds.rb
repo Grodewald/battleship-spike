@@ -16,11 +16,26 @@ pt = Ship.create!(name: 'PT Cruiser', size: 2)
 Game.delete_all
 
 game = Game.create!(name: "A Sample In Progress Game")
+# Game END
+
+#PLACE SHIPS START
+ShipPlacement.delete_all
+
 game.place_ship(carrier, 0, :vertical).save
 game.place_ship(battleship, 24, :horizontal).save
 game.place_ship(destroyer, 83, :vertical).save
 game.place_ship(sub, 58, :horizontal).save
 game.place_ship(pt, 89, :horizontal).save
+#PLACE SHIPS END
 
-# Game END
+#Guesses
+Guess.delete_all
+
+game.register_guess_value(89).save
+game.register_guess_value(79).save
+game.register_guess_value(99).save
+#End GUESSES
+
+
+
 
