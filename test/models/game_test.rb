@@ -133,4 +133,26 @@ class GameTest < ActiveSupport::TestCase
     assert_not_nil ship_placement3
   end
 
+  test 'register_guess returns a guess with a miss when a ship is not hit' do 
+    game = Game.new
+    ship = Ship.new(name: 'TestShip', size: 3)
+    ship_placement = game.place_ship(ship, 20, :horizontal)
+    guess = game.register_guess_value 21
+    assert_not guess.is_hit
+    guess1 = game.register_guess_at '1', 'A'
+    assert_not guess1.is_hit
+  end
+
+  test 'register_guess returns a guess with a hit when a ship is hit' do 
+    game = Game.new
+    ship = Ship.new(name: 'TestShip', size: 3)
+    ship_placement = game.place_ship(ship, 20, :horizontal)
+    guess = game.register_guess_value 20;
+    assert guess.is_hit
+    guess1 = game.register_guess_value 30;
+    assert guess1.is_hit
+    guess2 = game.register_guess_at '4', 'A'
+    assert guess2.is_hit
+  end
+
 end

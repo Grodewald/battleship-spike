@@ -31,50 +31,58 @@ class Game < ActiveRecord::Base
   end
 
   def register_guess_at(col, row)
-    validate_range(col, row) ?
-      (get_guess_at(col, row) ||
-        guesses.build(guess_value: get_cell_value(col,row), is_hit: false) ) :
+    (val = get_cell_value(col, row)) ? 
+      register_guess_value(val) :
       nil
   end
 
   def register_guess_value(val)
     validate_value_in_range(val) ? 
       ( (guesses.select{ |guess| guess.guess_value == val }[0]) ||
-        guesses.build(guess_value: val, is_hit: false) ) :
+        guesses.build(guess_value: val, is_hit: determine_if_guess_is_hit(val)) ) :
       nil
-  end
-
-  def validate_value_in_range(val)
-    max_value = @@columns[columns.last] * columns.length + @@rows[rows.last]
-    (val >= 0 and val <= max_value)
   end
 
   def place_ship(ship, top_left_value, orientation)
     validate_ship_placement(ship, top_left_value, orientation) ?
-      ship_placements.build(top_left_value: top_left_value, orientation: orientation) :
+      ship_placements.build(top_left_value: top_left_value, orientation: orientation, ship: ship) :
       nil
-  end
-
-  def validate_ship_placement(ship, top_left_value, orientation)
-    inc = orientation.to_s == 'horizontal' ? rows.length : 1
-    #used for horizontal check
-    ship_values = (0..(ship.size-1)).to_a.map{ |val| (val * inc) + top_left_value }
-    #used for vertical check -- if last is greater than first it must be off the board
-    ship_mods = ship_values.map{ |val| val%rows.length }
-    (validate_value_in_range (ship_values.last)) and 
-    (validate_value_in_range (ship_values.first)) and
-    (ship_mods.first <= ship_mods.last)
-
   end
 
   private 
 
-  
+    def validate_value_in_range(val)
+      max_value = @@columns[columns.last] * columns.length + @@rows[rows.last]
+      (val >= 0 and val <= max_value)
+    end
 
-  def validate_range(col, row) 
-    @@columns[col] and @@rows[row]
-  end
+    def validate_ship_placement(ship, top_left_value, orientation)
+      inc = orientation.to_s == 'horizontal' ? rows.length : 1
+      #used for horizontal check
+      ship_values = (0..(ship.size-1)).to_a.map{ |val| (val * inc) + top_left_value }
+      #used for vertical check -- if last is greater than first it must be off the board
+      ship_mods = ship_values.map{ |val| val%rows.length }
+      (validate_value_in_range (ship_values.last)) and 
+      (validate_value_in_range (ship_values.first)) and
+      (ship_mods.first <= ship_mods.last)
+    end
 
+    def validate_range(col, row) 
+      @@columns[col] and @@rows[row]
+    end
 
+    def get_ship_placement_values(placement)
+      inc = placement.orientation.to_s == 'horizontal' ? rows.length : 1
+      (0..(placement.ship.size-1)).to_a.map{ |val| (val * inc + placement.top_left_value)}
+    end 
+
+    def determine_if_guess_is_hit(val)
+      ship_placements.each do |sp|
+        if get_ship_placement_values(sp).include? val
+          return true
+        end
+      end
+      false
+    end
   
 end

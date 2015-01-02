@@ -4,11 +4,11 @@
 # Ship START
 Ship.delete_all
 
-Ship.create!(name: 'Aircraft Carrier', size: 5)
-Ship.create!(name: 'Battleship', size: 4)
-Ship.create!(name: 'Destroyer', size: 3)
-Ship.create!(name: 'Submarine', size: 3)
-Ship.create!(name: 'PT Cruiser', size: 2)
+carrier = Ship.create!(name: 'Aircraft Carrier', size: 5)
+battleship = Ship.create!(name: 'Battleship', size: 4)
+destroyer = Ship.create!(name: 'Destroyer', size: 3)
+sub = Ship.create!(name: 'Submarine', size: 3)
+pt = Ship.create!(name: 'PT Cruiser', size: 2)
 
 #Ship END
 
@@ -16,15 +16,11 @@ Ship.create!(name: 'PT Cruiser', size: 2)
 Game.delete_all
 
 game = Game.create!(name: "A Sample In Progress Game")
+game.place_ship(carrier, 0, :vertical).save
+game.place_ship(battleship, 24, :horizontal).save
+game.place_ship(destroyer, 83, :vertical).save
+game.place_ship(sub, 58, :horizontal).save
+game.place_ship(pt, 89, :horizontal).save
+
 # Game END
-
-# Guess START
-game.guesses.create!(guess_value: 13, is_hit:false)
-game.guesses.create!(guess_value: 84, is_hit:true)
-game.guesses.create!(guess_value: 85, is_hit:true)
-game.guesses.create!(guess_value: 86, is_hit:true)
-game.guesses.create!(guess_value: 75, is_hit:false)
-game.guesses.create!(guess_value: 99, is_hit:true)
-
-# Guess END
 
