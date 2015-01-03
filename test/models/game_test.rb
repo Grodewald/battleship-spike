@@ -133,6 +133,31 @@ class GameTest < ActiveSupport::TestCase
     assert_not_nil ship_placement3
   end
 
+  test "place_ship returns nill when one ship is placed on top of another" do 
+    game = Game.new
+    ship = Ship.new(name: 'TestShip', size: 3)
+    ship1 = Ship.new(name: 'Ship 1', size: 2)
+
+    ship_placement = game.place_ship ship, 35, :horizontal
+
+    assert_nil game.place_ship(ship1, 35, :horizontal)
+    assert_nil game.place_ship(ship1, 25, :horizontal)
+    assert_not_nil game.place_ship(ship1, 15, :horizontal)
+  end
+
+  test "place_ship returns nil when ship placements intersect" do
+    game = Game.new
+    ship = Ship.new(name: 'TestShip', size: 3)
+    ship1 = Ship.new(name: 'Ship 1', size: 3)
+
+    ship_placement = game.place_ship ship, 35, :vertical
+
+    assert_nil game.place_ship(ship1, 16, :horizontal)
+    assert_nil game.place_ship(ship1, 26, :horizontal)
+    assert_nil game.place_ship(ship1, 36, :horizontal)
+    assert_not_nil game.place_ship(ship1, 46, :horizontal)
+  end
+
   test 'register_guess returns a guess with a miss when a ship is not hit' do 
     game = Game.new
     ship = Ship.new(name: 'TestShip', size: 3)

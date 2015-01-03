@@ -56,10 +56,23 @@ class Game < ActiveRecord::Base
       (val >= 0 and val <= max_value)
     end
 
-    def validate_ship_placement(ship, top_left_value, orientation)
-      inc = orientation.to_s == 'horizontal' ? rows.length : 1
-      #used for horizontal check
-      ship_values = (0..(ship.size-1)).to_a.map{ |val| (val * inc) + top_left_value }
+    def validate_ship_placement(ship, top_left_value, orientation) 
+      ( validate_ship_on_board(ship, top_left_value, orientation) and
+        validate_ship_does_not_intersect_others(ship, top_left_value, orientation))
+    end
+
+    def validate_ship_does_not_intersect_others(ship, top_left_value, orientation)
+      ship_placements.each do |sp|
+        if (  get_ship_placement_values(sp.top_left_value, sp.orientation, sp.ship.size) & 
+              get_ship_placement_values(top_left_value, orientation, ship.size)).any?
+              return false
+        end
+      end
+      true
+    end
+
+    def validate_ship_on_board(ship, top_left_value, orientation)
+      ship_values = get_ship_placement_values(top_left_value, orientation, ship.size)
       #used for vertical check -- if last is greater than first it must be off the board
       ship_mods = ship_values.map{ |val| val%rows.length }
       (validate_value_in_range (ship_values.last)) and 
@@ -71,14 +84,14 @@ class Game < ActiveRecord::Base
       @@columns[col] and @@rows[row]
     end
 
-    def get_ship_placement_values(placement)
-      inc = placement.orientation.to_s == 'horizontal' ? rows.length : 1
-      (0..(placement.ship.size-1)).to_a.map{ |val| (val * inc + placement.top_left_value)}
+    def get_ship_placement_values(top_left_value, orientation, ship_size)
+      inc = orientation.to_s == 'horizontal' ? rows.length : 1
+      (0..(ship_size-1)).to_a.map{ |val| (val * inc + top_left_value)}
     end 
 
     def determine_if_guess_is_hit(val)
       ship_placements.each do |sp|
-        if get_ship_placement_values(sp).include? val
+        if get_ship_placement_values(sp.top_left_value, sp.orientation, sp.ship.size).include? val
           sp.register_hit
           return true
         end
