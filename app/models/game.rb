@@ -7,6 +7,18 @@ class Game < ActiveRecord::Base
   @@columns = {  '1' => 0, '2' => 1, '3' => 2, '4' => 3, '5' => 4,  
                       '6' => 5, '7' => 6, '8' => 7, '9' => 8, '10' => 9 }
 
+  def self.generate_game(name)
+    game = Game.new(name: name)
+    Ship.all.each do |ship|
+      placement = nil
+      until placement do
+        placement = game.place_ship(ship, Random.rand(100), (Random.rand(2) == 0 ? :horizontal : :vertical))
+      end
+      placement.save
+    end 
+    game
+  end
+
   def columns
     @@columns.keys
   end
