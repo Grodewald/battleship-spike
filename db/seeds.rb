@@ -8,7 +8,7 @@ carrier = Ship.create!(name: 'Aircraft Carrier', size: 5)
 battleship = Ship.create!(name: 'Battleship', size: 4)
 destroyer = Ship.create!(name: 'Destroyer', size: 3)
 sub = Ship.create!(name: 'Submarine', size: 3)
-pt = Ship.create!(name: 'PT Cruiser', size: 2)
+pt = Ship.create!(name: 'Speedboat', size: 2)
 
 #Ship END
 
