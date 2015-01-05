@@ -1,5 +1,6 @@
 class GamesController < ApplicationController
   before_action :set_game, only: [:show, :edit, :update, :destroy]
+  before_filter :load_game_creation_service
 
   # GET /games
   # GET /games.json
@@ -24,7 +25,7 @@ class GamesController < ApplicationController
   # POST /games
   # POST /games.json
   def create
-    @game = Game.generate_game(game_params[:name])
+    @game = @game_creation_service.generate_game(game_params[:name])
 
     respond_to do |format|
       if @game.save
@@ -59,6 +60,10 @@ class GamesController < ApplicationController
       format.html { redirect_to games_url, notice: 'Game was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def load_game_creation_service(service = GameCreationService.new)
+    @game_creation_service ||= service
   end
 
   private

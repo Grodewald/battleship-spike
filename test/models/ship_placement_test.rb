@@ -3,7 +3,8 @@ require 'test_helper'
 class ShipPlacementTest < ActiveSupport::TestCase
   setup do
     @ship = Ship.new(name: 'Test Ship', size: 3)
-    @game = Game.new
+    @board = Board.new(rows: 'A,B,C,D,E,F,G,H,I,J', columns: '1,2,3,4,5,6,7,8,9,10')
+    @game = Game.new(name: 'Test Game', board: @board)
     @placement = @game.place_ship(@ship, 20, :horizontal )
   end 
 

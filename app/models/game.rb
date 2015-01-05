@@ -1,35 +1,18 @@
 class Game < ActiveRecord::Base
   has_many :guesses, dependent: :destroy
   has_many :ship_placements,  dependent: :destroy
-  @@rows = { 'A' => 0, 'B' => 1, 'C' => 2, 'D' => 3, 'E' => 4, 
-                          'F' => 5, 'G' => 6, 'H' => 7, 'I' => 8, 'J' => 9 }
-
-  @@columns = {  '1' => 0, '2' => 1, '3' => 2, '4' => 3, '5' => 4,  
-                      '6' => 5, '7' => 6, '8' => 7, '9' => 8, '10' => 9 }
-
-  def self.generate_game(name)
-    game = Game.new(name: name)
-    Ship.all.each do |ship|
-      placement = nil
-      until placement do
-        placement = game.place_ship(ship, Random.rand(100), (Random.rand(2) == 0 ? :horizontal : :vertical))
-      end
-      placement.save
-    end 
-    game
-  end
+  belongs_to :board
 
   def columns
-    @@columns.keys
+    board.col_headings
   end
 
   def rows
-    @@rows.keys
+    board.row_headings
   end
 
   def get_cell_value(col, row)
-    validate_range(col, row) ? 
-      (@@columns[col] * @@rows.length + @@rows[row])  : nil
+    board.get_cell_value(col, row)
   end
 
   def has_cell_been_guessed(col, row)
@@ -64,7 +47,7 @@ class Game < ActiveRecord::Base
   private 
 
     def validate_value_in_range(val)
-      max_value = @@columns[columns.last] * columns.length + @@rows[rows.last]
+      max_value = (columns.length * rows.length - 1)
       (val >= 0 and val <= max_value)
     end
 
@@ -93,7 +76,7 @@ class Game < ActiveRecord::Base
     end
 
     def validate_range(col, row) 
-      @@columns[col] and @@rows[row]
+      columns.index(col) and rows.index(row)
     end
 
     def get_ship_placement_values(top_left_value, orientation, ship_size)

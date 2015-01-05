@@ -5,6 +5,7 @@ sample_game:
 
 one:
     name: MyString
+    board: default
 
 two:
     name: MyString

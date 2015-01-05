@@ -3,7 +3,7 @@
 
 #Define Board
 Board.delete_all
-Board.create(rows: 'A,B,C,D,E,F,G,H,I,J', columns: '1,2,3,4,5,6,7,8,9,10')
+board = Board.create!(rows: 'A,B,C,D,E,F,G,H,I,J', columns: '1,2,3,4,5,6,7,8,9,10')
 
 # Ship START
 Ship.delete_all
@@ -19,7 +19,7 @@ pt = Ship.create!(name: 'Speedboat', size: 2)
 # Game START
 Game.delete_all
 
-game = Game.create!(name: "A Sample In Progress Game")
+game = Game.create!(name: "A Sample In Progress Game", board: board)
 # Game END
 
 #PLACE SHIPS START

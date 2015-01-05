@@ -32,11 +32,12 @@ class Board < ActiveRecord::Base
       ((val + (count * row_headings.length)..val).step(row_headings.length).to_a.reverse)
     (is_val_in_range(ary.last) and is_val_in_range(ary.first)) ? ary : nil
   end
-  private 
 
-    def is_val_in_range(val)
-          (val >= 0 and val <= max_value)       
-    end
+  def is_val_in_range(val)
+      (val >= 0 and val <= max_value)       
+  end
+
+  private 
 
     def max_value
       col_headings.length * row_headings.length - 1

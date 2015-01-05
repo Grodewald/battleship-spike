@@ -1,8 +1,17 @@
 require 'test_helper'
 
+class FakeGameCreationService
+  def generate_game(name)
+    board = Board.new(rows: 'A,B,C', columns: '1,2,3')
+    Game.new(name: name, board: board)
+  end
+end
+
 class GamesControllerTest < ActionController::TestCase
   setup do
     @game = games(:one)
+    @board = boards(:default)
+    @controller.load_game_creation_service(FakeGameCreationService.new)
   end
 
   test "should get index" do
@@ -18,7 +27,7 @@ class GamesControllerTest < ActionController::TestCase
 
   test "should create game" do
     assert_difference('Game.count') do
-      post :create, game: {  name: @game. name }
+      post :create, game: {  name: @game.name, board: @board }
     end
 
     assert_redirected_to game_path(assigns(:game))
