@@ -1,0 +1,2 @@
+class CPU < Player
+end

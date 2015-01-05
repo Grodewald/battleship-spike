@@ -2,6 +2,7 @@ class Game < ActiveRecord::Base
   has_many :guesses, dependent: :destroy
   has_many :ship_placements,  dependent: :destroy
   belongs_to :board
+  has_and_belongs_to_many :players
 
   def columns
     board.col_headings
