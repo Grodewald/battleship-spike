@@ -20,9 +20,9 @@ class Board < ActiveRecord::Base
   end
 
   def get_values_below(val, count)
-    last_val = val%row_headings.length + count
+    last_val = val%row_headings.length + count 
     (last_val >= 0 and last_val < row_headings.length and is_val_in_range(val)) ? 
-      (val < (val + count) ? (val..(val + count)).to_a : ((val+count)..val).to_a.reverse) :
+      (val < (val + count ) ? (val..(val + count)).to_a : ((val+count)..val).to_a.reverse) :
       nil
   end
 

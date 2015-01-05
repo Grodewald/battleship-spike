@@ -65,8 +65,8 @@ class BoardTest < ActiveSupport::TestCase
   end
 
   test 'get_values_right returns nil if one of the cells is out of range' do
-    assert_nil @board.get_values_right(80, 2)
-    assert_nil @board.get_values_right(78, 8)
+    assert_nil @board.get_values_right(80, 3)
+    assert_nil @board.get_values_right(78, 9)
   end
 
 end
